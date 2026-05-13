@@ -1,5 +1,5 @@
 {
-  "host": "http://localhost:5222",
+  "host": "http://host.docker.internal:5222",
   "autoGenerate": false,
   "ignoreEndpoints": [],
   "tests": [
@@ -59,7 +59,7 @@
       "scenarios": [
         {
           "name": "GET /categories/get-paged #4",
-          "host": "http://localhost:5255",
+          "host": "http://host.docker.internal:5255",
           "order": 4,
           "expectedStatus": 201,
           "load": 1,
