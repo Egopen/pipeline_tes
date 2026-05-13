@@ -1,0 +1,33 @@
+services:
+  api-tests:
+    image: egorpenk/auto-api-tests:latest
+    container_name: auto-api-tests
+    depends_on:
+      - db
+    environment:
+      AutoRun__Enabled: "true"
+      AutoRun__SpecsPath: "/app/specs"
+      AutoRun__ReportsPath: "/app/reports"
+      AutoRun__RunTests: "true"
+      AutoRun__ResetDb: "true"
+      DB__Path: "Host=db;Port=5432;Database=apitests;Username=postgres;Password=postgres"
+      AutoRun__SpecUrls: "http://host.docker.internal:5222/swagger/v1/swagger.json@http://host.docker.internal:5222|http://host.docker.internal:5255/swagger/v1/swagger.json@http://host.docker.internal:5255"
+    volumes:
+      - ./specs:/app/specs
+      - ./reports:/app/reports
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  db:
+    image: postgres:15
+    container_name: postgres-api-tests
+    restart: always
+    environment:
+      POSTGRES_DB: apitests
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
