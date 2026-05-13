@@ -1,0 +1,76 @@
+{
+  "host": "http://localhost:5222",
+  "autoGenerate": false,
+  "ignoreEndpoints": [],
+  "tests": [
+    {
+      "endpoint": "/user/login",
+      "method": "POST",
+      "afterAuto": false,
+      "scenarios": [
+        {
+          "name": "POST /user/login #1",
+          "order": 1,
+          "expectedStatus": 200,
+          "load": 1,
+          "loadDuration": 0,
+          "query": {},
+          "path": {},
+          "headers": {},
+          "body": {
+            "email": "test@gmail.com",
+            "password": "testtest"
+          },
+          "artifacts": []
+        }
+      ]
+    },
+    {
+      "endpoint": "/user/get-my-info",
+      "method": "GET",
+      "afterAuto": false,
+      "scenarios": [
+        {
+          "name": "GET /user/get-my-info #2",
+          "order": 2,
+          "expectedStatus": 200,
+          "load": 1,
+          "loadDuration": 0,
+          "query": {},
+          "path": {},
+          "headers": {},
+          "body": {},
+          "artifacts": [
+            {
+              "sourceScenario": "POST /user/login #1",
+              "sourcePath": "access_token",
+              "target": "header",
+              "key": "Authorization",
+              "prefix": "Bearer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "endpoint": "/categories/get-paged",
+      "method": "GET",
+      "afterAuto": false,
+      "scenarios": [
+        {
+          "name": "GET /categories/get-paged #4",
+          "host": "http://localhost:5255",
+          "order": 4,
+          "expectedStatus": 201,
+          "load": 1,
+          "loadDuration": 0,
+          "query": {},
+          "path": {},
+          "headers": {},
+          "body": {},
+          "artifacts": []
+        }
+      ]
+    }
+  ]
+}
