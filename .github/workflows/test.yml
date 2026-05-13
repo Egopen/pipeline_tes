@@ -1,0 +1,27 @@
+name: API Tests
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  run-tests:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Run tests
+        run: docker compose up --abort-on-container-exit --exit-code-from api-tests
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: test-reports
+          path: reports/
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
